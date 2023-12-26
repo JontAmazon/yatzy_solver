@@ -1,7 +1,6 @@
 ### Brainstorm "get_expected_score"
 
-# small straight:
-(large straight similar)
+# straights:
     if rolls_left == 2:
         if nbr_matching < 4:
             expected_value = 0  # don't aim for a straight

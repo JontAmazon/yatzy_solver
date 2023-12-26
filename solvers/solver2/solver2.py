@@ -1,4 +1,4 @@
-"""Solver 2"""
+"""Solver 2 - Kind of how a human thinks"""
 import json
 from conf_debug import debug_print, debug_print2
 from pretty_print import pprint, rprint, gprint, yprint, bprint, cprint
@@ -68,7 +68,9 @@ WEIGHT_FUNCTION = {
 # - if both small and large straight remain, increase weigh function for both.
 # - define two different weight functions for the two rolls.
 # - let the weight function change over time.
-#   - when the bonus has been achieved.
+#       - when the bonus has been achieved.
+#       - after the last roll, increase the prio of:
+#           - four of a kind, full house, yatzy, and straights
 
 
 def generate_choice(current_choices, scoreboard, values, rolls_left):
@@ -98,20 +100,23 @@ def generate_choice(current_choices, scoreboard, values, rolls_left):
     choice = max(weighted_diffs, key=weighted_diffs.get)
 
     debug_print(f"expected_scores: \n {json.dumps(scores, indent=4)}")
-    debug_print(f"diffs: \n {json.dumps(diffs, indent=4)}")
+    debug_print2(f"diffs: \n {json.dumps(diffs, indent=4)}")
     debug_print(f"weighted_diffs: \n {json.dumps(weighted_diffs, indent=4)}")
 
     if rolls_left:
-        pprint(f"Choosing: {choice}")
+        pprint(f"values: {values}")
+        pprint(f"Aiming for: {choice}")
         pprint(f"Expected value: {scores[choice]}")
         pprint(f"'Weighted diff': {weighted_diffs[choice]}")
         saved_dice = [value for value, saved in zip(values, save_dict[choice]) if saved]
-        debug_print(f"Choosing to save: {save_dict[choice]}")
-        pprint(f"Choosing to save: {saved_dice}")
+        debug_print(f"Saving: {save_dict[choice]}")
+        pprint(f"Saving: {saved_dice}")
         return {}, save_dict[choice]
     else:
-        bprint("No rolls left. ")
+        bprint("No rolls left.")
         final_choice = {choice: scores[choice]}
         bprint(f"values: {values}")
+        debug_print(f"scoreboard: \n {json.dumps(scoreboard, indent=4)}")
+        debug_print(f"current_choices: \n {json.dumps(current_choices, indent=4)}")
         bprint(f"final_choice: {final_choice}")
         return final_choice, 5 * [True]

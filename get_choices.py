@@ -24,7 +24,7 @@ def _get_choices(values):
     max_one_pair = 0
     max_three_of_a_kind = 0
     max_four_of_a_kind = 0
-    for i in range(6):
+    for i in range(1, 7):
         count = values.count(i)
         if count >= 2:
             max_one_pair = 2 * i
@@ -45,7 +45,7 @@ def _get_choices(values):
     two_pairs = 0
     two_pairs_pair1 = 0
     two_pairs_pair2 = 0
-    for i in range(6):
+    for i in range(1, 7):
         count = values.count(i)
         if count >= 2:
             if two_pairs_pair1:
@@ -59,7 +59,7 @@ def _get_choices(values):
     full_house = 0
     full_house_pair_score = 0
     full_house_triplet_score = 0
-    for i in range(6):
+    for i in range(1, 7):
         count = values.count(i)
         if count == 2:
             full_house_pair_score = 2 * i
@@ -73,11 +73,12 @@ def _get_choices(values):
 
     # "yatzy": 
     yatzy = 0
-    for i in range(6):
+    for i in range(1, 7):
         count = values.count(i)
         if count == 5:
             yatzy = 50
-            print("Yatzy!")
+            for i in range(10):
+                yprint("Yatzy!")
 
     result["one pair"] = max_one_pair
     result["two pairs"] = two_pairs
@@ -98,6 +99,6 @@ def get_choices(values, scoreboard):
     for combo, value in scoreboard.items():
         if value is not None:
             del choices[combo]
-    bprint(f"Possible choices: {choices}")
+    debug_print2(f"Possible choices: {choices}")
     return choices
  

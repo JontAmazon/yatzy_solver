@@ -43,10 +43,10 @@ def roll(values, save):
         if not save[i]:
             new_values[i] = random.randint(1, 6)
     # debug prints:
-    print(f"rolling the dies...")
+    # print(f"rolling the dies...")
     # print(f"old values: {values}")
     # print(f"save: {save}")
-    pprint(f"new_values: {new_values}")
+    pprint(f"New values: {new_values}")
     return new_values
 
 
