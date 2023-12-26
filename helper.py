@@ -1,5 +1,4 @@
 """Helper functions such as:
-    - get_dice_count_for_value
     - get_sum_upper_section
     - get_final_score
     - roll
@@ -8,11 +7,6 @@
 """
 import random
 from pretty_print import pprint, rprint, gprint, yprint, bprint, cprint
-
-
-def get_dice_count_for_value(value, values):
-    """Get the number of a specific die, e.g. number of sixes."""
-    return values.count(value)
 
 
 def get_sum_upper_section(scoreboard):

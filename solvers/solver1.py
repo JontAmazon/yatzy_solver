@@ -69,6 +69,6 @@ def generate_choice(current_choices, scoreboard, values, rolls_left):
     print("No rolls left, choosing the option with the max score.")
     final_choice = get_max_of_current_choices(current_choices)
     save = 5 * [True]
-    pprint(f"values: {values}")
-    pprint(f"final_choice: {final_choice}")
+    bprint(f"values: {values}")
+    bprint(f"final_choice: {final_choice}")
     return final_choice, save

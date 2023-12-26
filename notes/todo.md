@@ -1,20 +1,20 @@
-# TODO
-- implement solver 2: always keep the dies you have the most of
-- implement solver 3: cost function
-- github -- clone problem
-    - testa copy-pasta rsa nycklar enligt instruktion
-    - om inte funkar, fråga Simon
+# PRIO 1
+- fix bug in solver 2:
+    - one pair, three of a kind are NEVER with sixes!
+- 
 
 
+# PRIO 2
+- koda "main100.py" -> genomsnitt
+- använda "main100.py" för att optimera värdena lite?
 
 
 
 # LATER
-- koda "main2_average_of_100_runs.py"
 
 
 
-# MUCH LATER
+# EV
 - gärna refaktorisera koden --> klass "yatzy_data" för att representera all data.
 
 

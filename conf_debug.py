@@ -1,6 +1,6 @@
 """Configure what prints should be activated."""
 
-DEBUG_MODE = False
+DEBUG_MODE = True
 DEBUG_MODE2 = False  # even more detail
 
 

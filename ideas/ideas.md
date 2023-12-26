@@ -51,5 +51,3 @@ Calculate the chance of getting each final dice result.
 
 
 
-
-

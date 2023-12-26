@@ -7,10 +7,10 @@ from helper import roll
 from helper import update_scoreboard
 from helper import get_final_score
 from get_choices import get_choices
-from conf_debug import debug_print
+from conf_debug import debug_print, debug_print2
 from pretty_print import pprint, rprint, gprint, yprint, bprint, cprint
-from solvers.solver1 import generate_choice
-# from solvers.solver2.solver2 import generate_choice
+# from solvers.solver1 import generate_choice
+from solvers.solver2.solver2 import generate_choice
 
 
 # Init:
@@ -33,12 +33,14 @@ scoreboard = {
     "yatzy": None, 
 }
 while turns_left:
-    bprint(f"\n\n\n New turn. turns_left: {turns_left}")
+    bprint(f"\n\n\n--------------------")
+    bprint(f"--------------------")
+    bprint(f"New turn. turns_left: {turns_left}")
     values = [None, None, None, None, None]
     save = [False, False, False, False, False]
     rolls_left = 3
     while rolls_left:
-        print(f"\n rolls_left: {rolls_left}")
+        pprint(f"\n rolls_left: {rolls_left}")
         values = roll(values, save)
         rolls_left -= 1
         current_choices = get_choices(values, scoreboard)
@@ -47,8 +49,8 @@ while turns_left:
             update_scoreboard(final_choice, scoreboard)
             rolls_left = 0
     turns_left -= 1
-    debug_print(f"\n Updated scoreboard: {scoreboard}")
-    # debug_print(f"\n Updated scoreboard: {json.dumps(scoreboard, indent=4)}")
+    debug_print2(f"\n Updated scoreboard: {scoreboard}")
+    # debug_print2(f"\n Updated scoreboard: {json.dumps(scoreboard, indent=4)}")
 bprint("\n\n Game ended!")
 final_score = get_final_score(scoreboard)
 bprint(f"Final score: {final_score}")
