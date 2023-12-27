@@ -1,9 +1,10 @@
 """Helper functions such as:
     - get_sum_upper_section
-    - get_final_score
     - roll
+    - get_final_score
     - update_scoreboard
-    - EV: get the sum of the upper section, or the difference left to 63?
+    - get_choices
+    - get_upper_section_status
 """
 import random
 from conf_debug import debug_print, debug_print2
@@ -16,25 +17,14 @@ def get_sum_upper_section(scoreboard):
     sum = 0
     for combo, value in scoreboard.items():
         if combo in upper_section:
-            sum += value
+            if scoreboard[combo]:
+                sum += value
     return sum
 
 
-def get_final_score(scoreboard):
-    """Calculate the final Yatzy score."""
-    # print("[get_final_score]")
-    sum = 0
-    for combo, value in scoreboard.items():
-        if value is None:
-            raise ValueError(f"The value for {combo} is None.")
-        assert value >= 0
-        sum += value
-    if get_sum_upper_section(scoreboard) >= 63:
-        bprint("\n\n\nBonus achieved!  :)")
-        sum += 50
-    else:
-        bprint("\n\n\nBonus not achieved.  =(")
-    return sum
+def is_bonus_achieved(scoreboard):
+    """Return True if bonus has already been achieved."""
+    return get_sum_upper_section(scoreboard) >= 63
 
 
 def roll(values, save):
@@ -49,6 +39,23 @@ def roll(values, save):
     # print(f"save: {save}")
     pprint(f"Values: {sorted(new_values)}")
     return new_values
+
+
+def get_final_score(scoreboard):
+    """Calculate the final Yatzy score."""
+    # print("[get_final_score]")
+    sum = 0
+    for combo, value in scoreboard.items():
+        if value is None:
+            raise ValueError(f"The value for {combo} is None.")
+        assert value >= 0
+        sum += value
+    if is_bonus_achieved(scoreboard):
+        bprint("\n\n\nBonus achieved!  :)")
+        sum += 50
+    else:
+        bprint("\n\n\nBonus not achieved.  =(")
+    return sum
 
 
 def update_scoreboard(choice, scoreboard):
@@ -180,3 +187,7 @@ def get_upper_section_status(scoreboard):
     print(f"status_for_nbrs: {status_for_nbrs}")
     print(f"sum: {sum(status_for_nbrs)}")  # OK if empty?
     return sum(status_for_nbrs)
+    
+    # NOTE: Future improvements:
+    # - also look at how many turns are left.
+

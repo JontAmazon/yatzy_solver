@@ -1,14 +1,15 @@
 """Solver 2 - Kind of how a human thinks"""
 import json
+from helper import is_bonus_achieved
+from helper import get_upper_section_status
 from conf_debug import debug_print, debug_print2
 from pretty_print import pprint, rprint, gprint, yprint, bprint, cprint
-# from get_expected_scores import get_expected_scores
-# from solvers.solver2 import get_expected_scores  # why is this needed...?
 from solvers.solver2.get_expected_scores import get_expected_scores
+from solvers.solver2.weight_function import get_weight_function
 
 
 SOLVER_DESCRIPTION = """
-Solver 2 algorithm: \n
+Solver 2 algorithm:
 1. if rolls_left:
         get_expected_scores -> {combination: (score, save)}
    else:
@@ -19,6 +20,11 @@ Solver 2 algorithm: \n
         use the max value to get "save".
     else:
         use the max value to make a final choice.
+
+NOTES:
+- The cost function is (kind of) what you aim to get for each combination.
+- The weight function is used because some combinations are more important than others.
+For example, it is very important to get lots of fours/fives/sixes in the upper section.
 """
 
 
@@ -39,39 +45,8 @@ COST_FUNCTION = {
     "chance": 25,
     "yatzy": 10,
 }
-# The cost function is (kind of) what you aim to get for each combination.
 #    NOTE: future improvements:
-# - let this change over time.
-
-
-WEIGHT_FUNCTION = {
-    "ones": 0.3,
-    "twos": 0.6,
-    "threes": 1,
-    "fours": 1.2,
-    "fives": 2.5,
-    "sixes": 4,
-    "one pair": 0.6,
-    "two pairs": 1,
-    "three of a kind": 2,
-    "four of a kind": 1.5,
-    "small straight": 0.45,
-    "large straight": 0.55,
-    "full house": 1.5,
-    "chance": 0.3,
-    "yatzy": 2,
-}
-# The weight function is used because some combinations are more important than others.
-# For example, it is very important to get lots of fours/fives/sixes in the upper section.
-#   NOTE: future improvements:
-# - if both two pairs and full house remain, increase weigh function for both.
-# - if both small and large straight remain, increase weigh function for both.
-# - define two different weight functions for the two rolls.
-# - let the weight function change over time.
-#       - when the bonus has been achieved.
-#       - after the last roll, increase the prio of:
-#           - four of a kind, full house, yatzy, and straights
-# - let the weights in the upper section depend on helper.get_upper_section_status
+# - let this change over time, somehow.....
 
 
 def generate_choice(current_choices, scoreboard, values, rolls_left):
@@ -85,22 +60,28 @@ def generate_choice(current_choices, scoreboard, values, rolls_left):
         final_choice: Dict with final choice, e.g. {"one pair": 12}. Empty dict if no final choice.
         save: Which dice to save and roll again, e.g. [True, False, False, True, False].
     """
+    # Algorithm step 1:
     if rolls_left:
         scores, save_dict = get_expected_scores(values, rolls_left)
     else:
         scores = current_choices
 
-    # only look at values where scoreboard is None
-    scores = {key: value for key, value in scores.items() if scoreboard.get(key) is None}
-    cost = {key: value for key, value in COST_FUNCTION.items() if scoreboard.get(key) is None}
-    weight = {key: value for key, value in WEIGHT_FUNCTION.items() if scoreboard.get(key) is None}
+    # Check how well we're doing in the upper section
+    bonus_achieved = is_bonus_achieved(scoreboard)
+    upper_section_status = get_upper_section_status(scoreboard)
+    weight_function = get_weight_function(rolls_left, bonus_achieved, upper_section_status)
 
-    # calculate differences, diffs = {key: scores[key] - COST_FUNCTION[key] for key in scores}
-    diffs = {key: scores[key] - cost[key] for key in scores}
-    weighted_diffs = {key: diffs[key] * weight[key] for key in diffs}
+    # Only keep values where scoreboard is None
+    scores = {key: value for key, value in scores.items() if scoreboard.get(key) is None}
+    costs = {key: value for key, value in COST_FUNCTION.items() if scoreboard.get(key) is None}
+    weights = {key: value for key, value in weight_function.items() if scoreboard.get(key) is None}
+
+    # Algorithm step 2-4:
+    diffs = {key: scores[key] - costs[key] for key in scores}
+    weighted_diffs = {key: diffs[key] * weights[key] for key in diffs}
     choice = max(weighted_diffs, key=weighted_diffs.get)
 
-    # print dicts
+    # Prints
     sorted_scores = dict(sorted(scores.items(), key=lambda x: float(x[1])))
     sorted_weights = dict(sorted(weighted_diffs.items(), key=lambda x: float(x[1])))
     formatted_scores = {key: format(value, '.4g') for key, value in sorted_scores.items()}
