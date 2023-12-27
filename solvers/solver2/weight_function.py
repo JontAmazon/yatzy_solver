@@ -7,10 +7,9 @@
 - let the weight function change over time.
       - after the last roll, increase the prio of:
           - four of a kind, full house, yatzy, and straights
-- let the weights in the upper section depend on helper.get_upper_section_status?
 """
 
-def get_weight_function(rolls_left, bonus_achieved, upper_section_status):
+def get_weight_function(rolls_left, bonus_achieved, upper_section_diff):
     """Weight function for Solver 2."""
 
     # Default values:
@@ -36,7 +35,7 @@ def get_weight_function(rolls_left, bonus_achieved, upper_section_status):
         weights["fives"] = 1
         weights["sixes"] = 1
 
-    elif upper_section_status >= 5:
+    elif upper_section_diff >= 5:
         weights["fives"] = 1.5
         weights["sixes"] = 1.5
 

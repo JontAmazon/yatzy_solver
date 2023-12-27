@@ -1,7 +1,7 @@
 """Solver 2 - Kind of how a human thinks"""
 import json
 from helper import is_bonus_achieved
-from helper import get_upper_section_status
+from helper import get_upper_section_diff
 from conf_debug import debug_print, debug_print2
 from pretty_print import pprint, rprint, gprint, yprint, bprint, cprint
 from solvers.solver2.get_expected_scores import get_expected_scores
@@ -68,8 +68,8 @@ def generate_choice(current_choices, scoreboard, values, rolls_left):
 
     # Check how well we're doing in the upper section
     bonus_achieved = is_bonus_achieved(scoreboard)
-    upper_section_status = get_upper_section_status(scoreboard)
-    weight_function = get_weight_function(rolls_left, bonus_achieved, upper_section_status)
+    upper_section_diff = get_upper_section_diff(scoreboard)
+    weight_function = get_weight_function(rolls_left, bonus_achieved, upper_section_diff)
 
     # Only keep values where scoreboard is None
     scores = {key: value for key, value in scores.items() if scoreboard.get(key) is None}
@@ -86,7 +86,7 @@ def generate_choice(current_choices, scoreboard, values, rolls_left):
     sorted_weights = dict(sorted(weighted_diffs.items(), key=lambda x: float(x[1])))
     formatted_scores = {key: format(value, '.4g') for key, value in sorted_scores.items()}
     formatted_weights = {key: format(value, '.4g') for key, value in sorted_weights.items()}
-    debug_print(f"expected_scores: \n {json.dumps(formatted_scores, indent=4)}")
+    debug_print2(f"expected_scores: \n {json.dumps(formatted_scores, indent=4)}")
     debug_print(f"weighted_diffs: \n {json.dumps(formatted_weights, indent=4)}")
 
     if rolls_left:
@@ -103,6 +103,7 @@ def generate_choice(current_choices, scoreboard, values, rolls_left):
         final_choice = {choice: scores[choice]}
         debug_print2(f"Possible choices: \n {json.dumps(current_choices, indent=4)}")
         debug_print(f"Current scoreboard: \n {json.dumps(scoreboard, indent=4)}")
+        debug_print(f"Upper section 'status': {upper_section_diff}")
         # bprint("No rolls left.")
         bprint(f"Final values: {sorted(values)}")
         bprint(f"final_choice: {final_choice}")

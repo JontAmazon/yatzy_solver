@@ -1,12 +1,12 @@
 # PRIO 1
-- kolla på outputs
-    - leta gömda buggar.
-    - värdera hur bra den "tänker".
+- koda "main100.py" -> genomsnitt
+- använda "main100.py" för att optimera värdena lite?
+- solver2: improve two pairs and full house:
+    - currently (2023.12.27 kl 16:40), Solver 2 never saves two differt types of dice. For these combos it really should!
+    - BRAINSTORM how I could improve expected_score for two pairs and full house!!!
 
 
 # PRIO 2
-- koda "main100.py" -> genomsnitt
-- använda "main100.py" för att optimera värdena lite?
 
 
 
