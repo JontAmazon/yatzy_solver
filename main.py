@@ -34,14 +34,13 @@ scoreboard = {
     "yatzy": None, 
 }
 while turns_left:
-    bprint(f"\n\n\n--------------------")
-    bprint(f"--------------------")
-    bprint(f"New turn. turns_left: {turns_left}")
-    values = [None, None, None, None, None]
-    save = [False, False, False, False, False]
+    yprint(f"\n\n\n\n\n New turn. turns_left: {turns_left}")
+    yprint(f"_____________________________________________")
+    values = 5 * [None]
+    save = 5 * [False]
     rolls_left = 3
     while rolls_left:
-        pprint(f"\n rolls_left: {rolls_left}")
+        pprint(f"\n\n\n Roll #{rolls_left - 2*(rolls_left-2)}")
         values = roll(values, save)
         rolls_left -= 1
         current_choices = get_choices(values, scoreboard)
@@ -52,7 +51,7 @@ while turns_left:
     turns_left -= 1
     debug_print2(f"\n Updated scoreboard: {scoreboard}")
     # debug_print2(f"\n Updated scoreboard: {json.dumps(scoreboard, indent=4)}")
-bprint("\n\n Game ended!")
+# bprint("\n\n Game ended!")
 final_score = get_final_score(scoreboard)
 bprint(f"Final score: {final_score}")
 bprint(f"Final scoreboard:")

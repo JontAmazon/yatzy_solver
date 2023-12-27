@@ -99,24 +99,29 @@ def generate_choice(current_choices, scoreboard, values, rolls_left):
     weighted_diffs = {key: diffs[key] * weight[key] for key in diffs}
     choice = max(weighted_diffs, key=weighted_diffs.get)
 
-    debug_print(f"expected_scores: \n {json.dumps(scores, indent=4)}")
-    debug_print2(f"diffs: \n {json.dumps(diffs, indent=4)}")
-    debug_print(f"weighted_diffs: \n {json.dumps(weighted_diffs, indent=4)}")
+    # print dicts
+    sorted_scores = dict(sorted(scores.items(), key=lambda x: float(x[1])))
+    sorted_weights = dict(sorted(weighted_diffs.items(), key=lambda x: float(x[1])))
+    formatted_scores = {key: format(value, '.4g') for key, value in sorted_scores.items()}
+    formatted_weights = {key: format(value, '.4g') for key, value in sorted_weights.items()}
+    debug_print(f"expected_scores: \n {json.dumps(formatted_scores, indent=4)}")
+    debug_print(f"weighted_diffs: \n {json.dumps(formatted_weights, indent=4)}")
 
     if rolls_left:
-        pprint(f"values: {values}")
-        pprint(f"Aiming for: {choice}")
-        pprint(f"Expected value: {scores[choice]}")
-        pprint(f"'Weighted diff': {weighted_diffs[choice]}")
         saved_dice = [value for value, saved in zip(values, save_dict[choice]) if saved]
-        debug_print(f"Saving: {save_dict[choice]}")
-        pprint(f"Saving: {saved_dice}")
+        pprint(f"Values: {sorted(values)}")
+        pprint(f"Saving: {sorted(saved_dice)}")
+        pprint(f"Aiming for: {choice}")
+        debug_print(f"Expected value: {scores[choice]:.4g}")
+        debug_print(f"'Weighted diff': {weighted_diffs[choice]:.4g}")
+        debug_print2(f"values (unsorted): {values}")
+        debug_print2(f"Saving: {save_dict[choice]}")
         return {}, save_dict[choice]
     else:
-        bprint("No rolls left.")
         final_choice = {choice: scores[choice]}
-        bprint(f"values: {values}")
-        debug_print(f"scoreboard: \n {json.dumps(scoreboard, indent=4)}")
-        debug_print(f"current_choices: \n {json.dumps(current_choices, indent=4)}")
+        debug_print2(f"Possible choices: \n {json.dumps(current_choices, indent=4)}")
+        debug_print(f"Current scoreboard: \n {json.dumps(scoreboard, indent=4)}")
+        # bprint("No rolls left.")
+        bprint(f"Final values: {sorted(values)}")
         bprint(f"final_choice: {final_choice}")
         return final_choice, 5 * [True]

@@ -30,10 +30,10 @@ def get_final_score(scoreboard):
         assert value >= 0
         sum += value
     if get_sum_upper_section(scoreboard) >= 63:
-        bprint("Bonus achieved!")
+        bprint("\n\n\nBonus achieved!  :)")
         sum += 50
     else:
-        bprint("Bonus not achieved.")
+        bprint("\n\n\nBonus not achieved.  =(")
     return sum
 
 
@@ -47,7 +47,7 @@ def roll(values, save):
     # print(f"rolling the dies...")
     # print(f"old values: {values}")
     # print(f"save: {save}")
-    pprint(f"New values: {new_values}")
+    pprint(f"Values: {sorted(new_values)}")
     return new_values
 
 
@@ -158,3 +158,25 @@ def get_choices(values, scoreboard):
             del choices[combo]
     debug_print2(f"Possible choices: {choices}")
     return choices
+
+
+def get_upper_section_status(scoreboard):
+    """Get a number representing how well the upper section is going.
+
+    A positive value means the upper section is going well.
+
+    Note: The bonus is achieved is getting a sum of 63, corresponding to 3 of each number.
+    Therefore, this method can be used to get a "status" for how the upper section is going.
+    
+    NOTE: Not sure how/if I could use this method though... we'll see...
+    NOTE: Draft. Un-used method.
+    """
+    status_for_nbrs = []
+    for i, (combo, _) in enumerate(scoreboard.items()):
+        nbr = i + 1
+        if nbr <= 6:
+            if scoreboard[combo] is not None:
+                status_for_nbrs += [scoreboard[combo] - (3*nbr)]
+    print(f"status_for_nbrs: {status_for_nbrs}")
+    print(f"sum: {sum(status_for_nbrs)}")  # OK if empty?
+    return sum(status_for_nbrs)

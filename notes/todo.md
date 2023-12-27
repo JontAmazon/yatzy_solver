@@ -1,15 +1,9 @@
-# Quick things
-- sort "values" when printing it
-- print fewer significant digits when printing:
-    - expected_scores, diffs, weighted_diffs
-- sort dicts when printing them:
-    - expected_scores and weighted_diffs
-
-
 # PRIO 1
 - solver2: add straights to "get_expected_scores".
     - easy-to-follow notes exist in "get_expected_scores.md"
+- kolla på outputs, leta gömda buggar.
 - kort brainstorma: hur kan solver2 ta hänsyn till bonusen?
+    - "get_upper_section_status" i helper.py  - användbar?
 
 
 
@@ -17,7 +11,6 @@
 - koda "main100.py" -> genomsnitt
 - använda "main100.py" för att optimera värdena lite?
 - se "future improvements" i Solver 2 -- här finns mycket!
-- kolla på outputs, leta gömda buggar.
 
 
 
