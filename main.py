@@ -1,14 +1,15 @@
 """Yatzy Solver attempt 1"""
 # ____Definitions____
 # Combination: E.g. pair, full house, or chance.
-# Turn: A game of Yatzy consists of 15 turns. On each turn, you have 3 rolls.
 import json
 from helper import roll
 from helper import update_scoreboard
 from helper import get_final_score
-from get_choices import get_choices
+from helper import get_choices
 from conf_debug import debug_print, debug_print2
 from pretty_print import pprint, rprint, gprint, yprint, bprint, cprint
+
+# Choose Solver:
 # from solvers.solver1 import generate_choice
 from solvers.solver2.solver2 import generate_choice
 
