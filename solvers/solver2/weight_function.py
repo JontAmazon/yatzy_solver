@@ -34,14 +34,25 @@ def get_weight_function(rolls_left, bonus_achieved, upper_section_diff):
     if bonus_achieved:
         weights["fives"] = 1
         weights["sixes"] = 1
-
-    elif upper_section_diff >= 5:
-        weights["fives"] = 1.5
-        weights["sixes"] = 1.5
-
+    
     if rolls_left == 0:
         # Increase weights of rare combinations
+        # Result: very slightly beneficial
         weights["small straight"] = 1.7
         weights["large straight"] = 1.7
     
     return weights
+
+""" RESULTS, based on main_1000.py:
+
+# Not good:
+elif upper_section_diff >= 5:
+    weights["fives"] = 1.5
+    weights["sixes"] = 1.5
+
+
+
+
+
+
+"""

@@ -1,4 +1,5 @@
-"""Play ~500 games of Yatzy, and calculate average score, among other statistics."""
+"""Play ~1000 games of Yatzy, and calculate average score, among other statistics."""
+import argparse
 import json
 from helper import roll
 from helper import update_scoreboard
@@ -9,11 +10,16 @@ from conf_debug import debug_print, debug_print2
 from pretty_print import pprint, rprint, gprint, yprint, bprint, cprint
 
 # Choose Solver:
-# from solvers.solver1 import generate_choice
-from solvers.solver2.solver2 import generate_choice
+# from solvers.solver1 import generate_choice  # 145 points
+from solvers.solver2.solver2 import generate_choice  # 222 points
 
 
-nbr_games = 500
+parser = argparse.ArgumentParser(description='Play Yatzy thousands of times')
+parser.add_argument('--input', '-i', help='Number of games', type=int, default=1000)
+args = parser.parse_args()
+nbr_games = args.input
+
+
 scoreboard_all_games = {
     "ones": [],
     "twos": [],
@@ -35,7 +41,7 @@ final_scores = []
 bonus_achieved = []
 
 for i in range(nbr_games):
-    print(f"Game {i+1}")
+    # print(f"Game {i+1}")
     # Init:
     turns_left = 15
     scoreboard = {

@@ -84,6 +84,13 @@ def _expected_score_x_of_a_kind(values, rolls_left, required_number):
         expected_chance = (expected_count / required_number)**2  # OK...?
         expected_chance = min(1, expected_chance)
         expected_score = i * required_number * expected_chance  # (a bit inaccurate for Yatzy)
+        # factor = 0.8  # 216.8
+        # factor = 0.9  # 219.0
+        factor = 1.0  # 220.4
+        # factor = 1.05  # 220.0
+        # factor = 1.1  # 221.0
+        # factor = 1.2  # 216.3
+        expected_score *= factor
         if expected_score > expected_score_max:
             expected_score_max = expected_score
             save = get_indices(i, values)
@@ -244,7 +251,15 @@ def _full_house(values, rolls_left):
     # Otherwise it's too complicated -> Return the expected score of a two pair,
     # multiplied by 0.8 because full house is way more difficult to get.
     expected_score, save = _two_pairs(values, rolls_left)
-    return 0.8 * expected_score, save
+    factor = 1.0
+    return factor * expected_score, save
+    # factor = 1.0  # 224
+    # factor = 0.3  # 219
+    # factor = 0.6  # 222
+    # factor = 0.7  # 220
+    # factor = 0.8  # 220
+    # factor = 0.9  # 221
+    # factor = 2.0  # 191
 
 
 # -------------------------------------------------------------------------

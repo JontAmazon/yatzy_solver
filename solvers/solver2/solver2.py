@@ -6,6 +6,7 @@ from conf_debug import debug_print, debug_print2
 from pretty_print import pprint, rprint, gprint, yprint, bprint, cprint
 from solvers.solver2.get_expected_scores import get_expected_scores
 from solvers.solver2.weight_function import get_weight_function
+from solvers.solver2.cost_function import get_cost_function
 
 
 SOLVER_DESCRIPTION = """
@@ -28,25 +29,7 @@ For example, it is very important to get lots of fours/fives/sixes in the upper 
 """
 
 
-COST_FUNCTION = {
-    "ones": 1,
-    "twos": 4,
-    "threes": 7,
-    "fours": 10,
-    "fives": 12,
-    "sixes": 15,
-    "one pair": 11,
-    "two pairs": 18,
-    "three of a kind": 15,
-    "four of a kind": 15,
-    "small straight": 10,
-    "large straight": 9.9,
-    "full house": 16,
-    "chance": 25,
-    "yatzy": 10,
-}
-#    NOTE: future improvements:
-# - let this change over time, somehow.....
+COST_FUNCTION = get_cost_function()
 
 
 def generate_choice(current_choices, scoreboard, values, rolls_left):

@@ -1,6 +1,7 @@
 """Print in color."""
 
 
+# Temp fix for main_1000.py:
 OMIT_PRINTS = True
 
 
