@@ -1,6 +1,9 @@
 """Print in color."""
 
 
+OMIT_PRINTS = True
+
+
 # ANSI color codes
 RED = '\033[91m'
 GREEN = '\033[92m'
@@ -18,13 +21,16 @@ def gprint(text):
     print(GREEN + text + RESET)
 
 def yprint(text):
-    print(YELLOW + text + RESET)
+    if not OMIT_PRINTS:
+        print(YELLOW + text + RESET)
 
 def bprint(text):
-    print(BLUE + text + RESET)
+    if not OMIT_PRINTS:
+        print(BLUE + text + RESET)
 
 def pprint(text):
-    print(PURPLE + text + RESET)
+    if not OMIT_PRINTS:
+        print(PURPLE + text + RESET)
 
 def cprint(text):
     print(CYAN + text + RESET)

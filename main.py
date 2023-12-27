@@ -1,4 +1,4 @@
-"""Yatzy Solver attempt 1"""
+"""Play a game of Yatzy using one of the implemented solvers."""
 # ____Definitions____
 # Combination: E.g. pair, full house, or chance.
 import json
