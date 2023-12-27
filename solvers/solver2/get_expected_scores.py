@@ -1,6 +1,7 @@
 """For each combination, get the expected score you would get if aiming solely
    at that combination. Also return a "save" list for each combination.
 """
+import math
 import json
 from conf_debug import debug_print, debug_print2
 from pretty_print import pprint, rprint, gprint, yprint, bprint, cprint
@@ -104,13 +105,52 @@ def _yatzy(values, rolls_left):
     
 # -------------------------------------------------------------------------
 
+
+def _straight(values, rolls_left, type):
+    "Expected score for straights."
+    if type == "small":
+        straight = [1, 2, 3, 4, 5]
+        points_for_straight = 15
+    else:
+        straight = [2, 3, 4, 5, 6]
+        points_for_straight = 20
+
+    nbr_matching = sum(1 for nbr in straight if nbr in values)
+
+    if rolls_left == 1:
+        chance_5_matching = math.prod(i / 6 for i in range(5 - nbr_matching))
+        expected_value = chance_5_matching * points_for_straight
+        expected_value *= 0.9  # usually better not to go for straights
+
+    elif rolls_left == 2:
+        if nbr_matching < 4:
+            expected_value = 0  # don't aim for a straight
+            save = 5 * [False]
+        elif nbr_matching == 5:
+            expected_value = 50  # exaggerate expected value
+        elif nbr_matching == 4:
+            chance_5_matching = 1 - 5/6 * 5/6
+            expected_value = points_for_straight * chance_5_matching
+            expected_value *= 0.75  # usually better not to go for straights
+
+    # Save unique dice in "straight":
+    save = 5 * [False]
+    already_saved = []
+    for nbr in straight:
+        for i, value in enumerate(values):
+            if value == nbr and nbr not in already_saved:
+                save[i] = True
+                already_saved += [nbr]
+    return expected_value, save
+
+
 def _small_straight(values, rolls_left):
-    """TODO later"""
-    return 1, 5 * [False]
+    """Expected score for small straight."""
+    return _straight(values, rolls_left, "small")
     
 def _large_straight(values, rolls_left):
     """TODO later"""
-    return 1, 5 * [False]
+    return _straight(values, rolls_left, "large")
 
 
 # -------------------------------------------------------------------------

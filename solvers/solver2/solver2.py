@@ -71,6 +71,7 @@ WEIGHT_FUNCTION = {
 #       - when the bonus has been achieved.
 #       - after the last roll, increase the prio of:
 #           - four of a kind, full house, yatzy, and straights
+# - let the weights in the upper section depend on helper.get_upper_section_status
 
 
 def generate_choice(current_choices, scoreboard, values, rolls_left):
