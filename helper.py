@@ -8,8 +8,7 @@
     - get_choices
 """
 import random
-from conf_debug import debug_print, debug_print2
-from pretty_print import pprint, rprint, gprint, yprint, bprint, cprint
+from pretty_print import debug_print, debug_print2, pprint, bprint, yprint
 
 
 def roll(values, save):

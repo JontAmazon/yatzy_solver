@@ -2,8 +2,7 @@
 import json
 from helper import is_bonus_achieved
 from helper import get_upper_section_diff
-from conf_debug import debug_print, debug_print2
-from pretty_print import pprint, rprint, gprint, yprint, bprint, cprint
+from pretty_print import debug_print, debug_print2, pprint, bprint
 from solvers.solver2.get_expected_scores import get_expected_scores
 from solvers.solver2.weight_function import get_weight_function
 from solvers.solver2.cost_function import get_cost_function
@@ -29,9 +28,6 @@ For example, it is very important to get lots of fours/fives/sixes in the upper 
 """
 
 
-COST_FUNCTION = get_cost_function()
-
-
 def generate_choice(current_choices, scoreboard, values, rolls_left):
     """Decide which dice to roll, or make a final choice.
 
@@ -52,24 +48,30 @@ def generate_choice(current_choices, scoreboard, values, rolls_left):
     # Check how well we're doing in the upper section
     bonus_achieved = is_bonus_achieved(scoreboard)
     upper_section_diff = get_upper_section_diff(scoreboard)
-    weight_function = get_weight_function(rolls_left, bonus_achieved, upper_section_diff)
+    cost_function = get_cost_function(scoreboard, rolls_left)
+    weight_function = get_weight_function(scoreboard, rolls_left, bonus_achieved, upper_section_diff)
 
     # Only keep values where scoreboard is None
     scores = {key: value for key, value in scores.items() if scoreboard.get(key) is None}
-    costs = {key: value for key, value in COST_FUNCTION.items() if scoreboard.get(key) is None}
-    weights = {key: value for key, value in weight_function.items() if scoreboard.get(key) is None}
+    cost_function = {key: value for key, value in cost_function.items() if scoreboard.get(key) is None}
+    weight_function = {key: value for key, value in weight_function.items() if scoreboard.get(key) is None}
 
     # Algorithm step 2-4:
-    diffs = {key: scores[key] - costs[key] for key in scores}
-    weighted_diffs = {key: diffs[key] * weights[key] for key in diffs}
+    diffs = {key: scores[key] - cost_function[key] for key in scores}
+    weighted_diffs = {key: diffs[key] * weight_function[key] for key in diffs}
     choice = max(weighted_diffs, key=weighted_diffs.get)
 
     # Prints
     sorted_scores = dict(sorted(scores.items(), key=lambda x: float(x[1])))
+    sorted_diffs = dict(sorted(diffs.items(), key=lambda x: float(x[1])))
     sorted_weights = dict(sorted(weighted_diffs.items(), key=lambda x: float(x[1])))
     formatted_scores = {key: format(value, '.4g') for key, value in sorted_scores.items()}
+    formatted_diffs = {key: format(value, '.4g') for key, value in sorted_diffs.items()}
     formatted_weights = {key: format(value, '.4g') for key, value in sorted_weights.items()}
-    debug_print2(f"expected_scores: \n {json.dumps(formatted_scores, indent=4)}")
+    # debug_print2(f"expected_scores: \n {json.dumps(formatted_scores, indent=4)}")
+    debug_print(f"(expected?) scores: \n {json.dumps(formatted_scores, indent=4)}")
+    # debug_print2(f"diffs: \n {json.dumps(formatted_diffs, indent=4)}")
+    debug_print(f"diffs: \n {json.dumps(formatted_diffs, indent=4)}")
     debug_print(f"weighted_diffs: \n {json.dumps(formatted_weights, indent=4)}")
 
     if rolls_left:

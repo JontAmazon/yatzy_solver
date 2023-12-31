@@ -16,28 +16,24 @@ def get_expected_scores(values, rolls_left):
        at that combination. Also return a "save" list for each combination.
     """
     debug_print2("[get_expected_scores]")
-    expected_scores = {}  # each entry should be a tuple of length 2
-                          # with expected score and a "save" list.
+    expected_scores = {}  # each entry should be a tuple of length 2: (expected score, "save" list)
     expected_scores["ones"] = _upper_section(values, rolls_left, 1)
     expected_scores["twos"] = _upper_section(values, rolls_left, 2)
     expected_scores["threes"] = _upper_section(values, rolls_left, 3)
     expected_scores["fours"] = _upper_section(values, rolls_left, 4)
     expected_scores["fives"] = _upper_section(values, rolls_left, 5)
     expected_scores["sixes"] = _upper_section(values, rolls_left, 6)
-    
     expected_scores["one pair"] = _one_pair(values, rolls_left)
     expected_scores["three of a kind"] = _three_of_a_kind(values, rolls_left)
     expected_scores["four of a kind"] = _four_of_a_kind(values, rolls_left)
     expected_scores["yatzy"] = _yatzy(values, rolls_left)
-
     expected_scores["small straight"] = _small_straight(values, rolls_left)
     expected_scores["large straight"] = _large_straight(values, rolls_left)
-
     expected_scores["two pairs"] = _two_pairs(values, rolls_left)
     expected_scores["full house"] = _full_house(values, rolls_left)
-    
     expected_scores["chance"] = _chance(values, rolls_left)
 
+    # assert each entry is a tuple of length 2: (expected score, "save" list)
     for combo, item in expected_scores.items():
         assert isinstance(item, tuple) and len(item) == 2, f"Invalid tuple for {combo}: Tuple: {item}"
         expected_score, save = item
@@ -82,15 +78,15 @@ def _expected_score_x_of_a_kind(values, rolls_left, required_number):
         expected_count_increase = rolls_left * 1/6 * (5-count)
         expected_count = count + expected_count_increase
         expected_chance = (expected_count / required_number)**2  # OK...?
+        # expected_chance = (expected_count / required_number)**2.2  # OK...?
+        # expected_chance = (expected_count / required_number)**1.8  # OK...?
         expected_chance = min(1, expected_chance)
-        expected_score = i * required_number * expected_chance  # (a bit inaccurate for Yatzy)
-        # factor = 0.8  # 216.8
-        # factor = 0.9  # 219.0
-        factor = 1.0  # 220.4
-        # factor = 1.05  # 220.0
-        # factor = 1.1  # 221.0
-        # factor = 1.2  # 216.3
-        expected_score *= factor
+        #if required_number == 5:
+        #    expected_score = 50 * expected_chance
+        #else:
+        #    expected_score = i * required_number * expected_chance
+        # NOTE: This worked TERRIBLY. Maybe because expected_chance is wrong.
+        expected_score = i * required_number * expected_chance
         if expected_score > expected_score_max:
             expected_score_max = expected_score
             save = get_indices(i, values)

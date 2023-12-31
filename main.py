@@ -1,17 +1,16 @@
 """Play a game of Yatzy using one of the implemented solvers."""
-# ____Definitions____
-# Combination: E.g. pair, full house, or chance.
 import json
 from helper import roll
 from helper import update_scoreboard
 from helper import get_final_score
 from helper import get_choices
-from conf_debug import debug_print, debug_print2
-from pretty_print import pprint, rprint, gprint, yprint, bprint, cprint
+from pretty_print import debug_print, debug_print2, pprint, yprint, bprint
 
 # Choose Solver:
 # from solvers.solver1 import generate_choice
 from solvers.solver2.solver2 import generate_choice
+
+# NOTE: make sure to set OMIT_PRINTS = False, in pretty_print.py
 
 
 # Init:
