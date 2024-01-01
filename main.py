@@ -10,8 +10,6 @@ from pretty_print import debug_print, debug_print2, pprint, yprint, bprint
 # from solvers.solver1 import generate_choice
 from solvers.solver2.solver2 import generate_choice
 
-# NOTE: make sure to set OMIT_PRINTS = False, in pretty_print.py
-
 
 # Init:
 turns_left = 15

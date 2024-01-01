@@ -60,8 +60,13 @@ def generate_choice(current_choices, scoreboard, values, rolls_left):
     diffs = {key: scores[key] - cost_function[key] for key in scores}
     weighted_diffs = {key: diffs[key] * weight_function[key] for key in diffs}
     choice = max(weighted_diffs, key=weighted_diffs.get)
+    # Try "reversing" weights when diffs are negative:
+    #weighted_diffs = {
+    #    key: (diffs[key] * weight_function[key] if diffs[key] > 0 else diffs[key] * (1 / weight_function[key]))
+    #    for key in diffs
+    #}  # NOTE: I think this could work super well, but it worked terribly with current parameters.
 
-    # Prints
+    # Sorting -> formatting -> printing
     sorted_scores = dict(sorted(scores.items(), key=lambda x: float(x[1])))
     sorted_diffs = dict(sorted(diffs.items(), key=lambda x: float(x[1])))
     sorted_weights = dict(sorted(weighted_diffs.items(), key=lambda x: float(x[1])))

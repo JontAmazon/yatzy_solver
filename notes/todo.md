@@ -5,16 +5,23 @@
 
 
 # PRIO 2
-- Solver 3 -- dynamisk programmering:
-    - rekursiv metod
-- Solver 4 -- använda Solver 2 rekursivt?
-    - Låt Solver 2 ta fram "save" för varje kombo, sedan för varje "save"-kandidat spela 100 partier (icke-rekursivt) och se score.
-    - Detta skulle kunna fixa problem med bonusen (?).
 
 
 
 
 # LATER
+
+
+
+
+# Solver ideas
+- Solver 3 -- dynamisk programmering:
+    - rekursiv metod
+- Solver 4 -- använda Solver 2 rekursivt?
+    - Låt Solver 2 ta fram "save" för varje kombo, sedan för varje "save"-kandidat spela 100 partier (icke-rekursivt) och se score.
+    - Detta skulle kunna fixa problem med bonusen (?).
+- Solver 5 -- neural network?
+
 
 
 

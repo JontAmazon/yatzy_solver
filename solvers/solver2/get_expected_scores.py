@@ -3,8 +3,7 @@
 """
 import math
 import json
-from conf_debug import debug_print, debug_print2
-from pretty_print import pprint, rprint, gprint, yprint, bprint, cprint
+from pretty_print import debug_print, debug_print2, pprint, yprint, bprint
 
 
 def get_indices(value, values):
@@ -34,6 +33,7 @@ def get_expected_scores(values, rolls_left):
     expected_scores["chance"] = _chance(values, rolls_left)
 
     # assert each entry is a tuple of length 2: (expected score, "save" list)
+    # assert types and values are reasonable
     for combo, item in expected_scores.items():
         assert isinstance(item, tuple) and len(item) == 2, f"Invalid tuple for {combo}: Tuple: {item}"
         expected_score, save = item
@@ -41,8 +41,9 @@ def get_expected_scores(values, rolls_left):
         assert isinstance(save, list) and len(save) == 5 and all(isinstance(val, bool) for val in save), \
             f"Invalid save list for {combo}"
         if expected_score < 0:
-            raise ValueError(f"Expected scores should not be negative (?). \n"
-                             f"expected_scores: \n {json.dumps(expected_scores, indent=4)}")
+            if combo != "ones":  # tweek for "ones"
+                raise ValueError(f"Expected scores should not be negative (?). \n"
+                                f"expected_scores: \n {json.dumps(expected_scores, indent=4)}")
         elif expected_score > 50:
             raise ValueError(f"Expected scores should not be over 50.\n"
                              f"expected_scores: \n {json.dumps(expected_scores, indent=4)}")
@@ -67,6 +68,11 @@ def _upper_section(values, rolls_left, nbr):
         expected_value = nbr * (count + 1/6 * (5-count) + 1/6 * 5/6 * (5-count))
     if rolls_left == 1:
         expected_value = nbr * (count + 1/6 * (5-count))
+
+    # Try tweek not to aim for ones:
+    if nbr == 1 and count < 2:
+        expected_value -= 3
+
     return expected_value, get_indices(nbr, values)
 
 

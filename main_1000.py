@@ -6,13 +6,14 @@ from helper import update_scoreboard
 from helper import get_final_score
 from helper import is_bonus_achieved
 from helper import get_choices
-from conf_debug import debug_print, debug_print2
-from pretty_print import pprint, rprint, gprint, yprint, bprint, cprint
+import pretty_print
 
 # Choose Solver:
 # from solvers.solver1 import generate_choice  # 145 points
 from solvers.solver2.solver2 import generate_choice  # 222 points
 
+
+pretty_print.OMIT_PRINTS = True
 
 parser = argparse.ArgumentParser(description='Play Yatzy thousands of times')
 parser.add_argument('--input', '-i', help='Number of games', type=int, default=1000)

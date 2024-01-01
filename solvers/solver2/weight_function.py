@@ -12,8 +12,8 @@
 def get_weight_function(scoreboard, rolls_left, bonus_achieved, upper_section_diff):
     """Weight function for Solver 2."""
     weights = {  # 222; 0.67
-        "ones": 1,
-        "twos": 2,    # 2
+        "ones": 1,  # 1     hm...
+        "twos": 2,   # 2
         "threes": 3,  # 3
         "fours": 3,   # 3
         "fives": 3,   # 3
@@ -29,6 +29,7 @@ def get_weight_function(scoreboard, rolls_left, bonus_achieved, upper_section_di
         "yatzy": 1,
     }
     if bonus_achieved:
+        weights["ones"] = 1
         weights["twos"] = 1
         weights["threes"] = 1
         weights["fours"] = 1

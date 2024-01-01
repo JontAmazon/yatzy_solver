@@ -1,6 +1,5 @@
 """Configure what prints should be activated."""
 
-# Temp fix for main_1000.py:
 OMIT_PRINTS = False
 
 
