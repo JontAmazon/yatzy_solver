@@ -85,7 +85,3 @@ print(f"nbr_games: {nbr_games}")
 print(f"final scores average: {sum(final_scores) / nbr_games}")
 print(f"fraction bonus achieved: {sum(bonus_achieved) / nbr_games}")
 
-# NOTE: future statistics:
-# - histogram for final scores
-# - average for each combo
-# - histogram for each combo

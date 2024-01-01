@@ -1,16 +1,16 @@
 # PRIO 1
-- git rm conf_debug.py; rename pretty_print to printing
-- Förbättra Solver 2.
-    - Se dens egna todo-lista.
+- main_1000: add more statistics:
+    - average for each combo
+    - plot histogram for final scores
+    - plot histogram for each combo
+
 
 
 # PRIO 2
 
 
 
-
 # LATER
-
 
 
 
@@ -24,10 +24,8 @@
 
 
 
-
 # EV
 - gärna refaktorisera koden --> klass "yatzy_data" för att representera all data.
-
 
 
 
