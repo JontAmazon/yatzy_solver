@@ -2,7 +2,7 @@
 Implemented a solver for Scandinavian Yatzy (5 dice, 15 turns, max score is 374).
 
 # Solver 2:
-Usually plays well, but makes stupid decisions sometimes.
+Relies on heuristics, no heavy calculations (so not really a yatzy "solver".) It usually plays well, but makes stupid decisions sometimes.
 
 Algorithm:
 1. get expected scores for each combination
